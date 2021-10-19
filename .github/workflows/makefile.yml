@@ -34,6 +34,7 @@ jobs:
         echo "object.backend = file" >> ~/.config/softhsm2/softhsm2.conf
         echo "log.level = ERROR" >> ~/.config/softhsm2/softhsm2.conf
         echo "slots.removable = false" >> ~/.config/softhsm2/softhsm2.conf
+        softhsm2-util --init-token --slot 0 --label "ForFabric" --so-pin 1234 --pin 98765432
         export PKCS11_LABEL="ForFabric"
         export PKCS11_LIB="/usr/lib/softhsm/libsofthsm2.so"
         export PKCS11_PIN="98765432"
