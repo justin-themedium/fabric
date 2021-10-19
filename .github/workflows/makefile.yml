@@ -24,5 +24,19 @@ jobs:
       with:
         go-version: '1.14'
 
+    - name: softhsm2 installation
+      run: |
+        sudo apt-get install -y softhsm
+        mkdir -p ~/.config/softhsm2
+        echo `readlink e ~/var/lib/softhsm/tokens/`
+        mkdir -p ~/var/lib/softhsm/tokens/
+        echo "directories.tokendir = `readlink -e ~/var/lib/softhsm/tokens`" > ~/.config/softhsm2/softhsm2.conf
+        echo "object.backend = file" >> ~/.config/softhsm2/softhsm2.conf
+        echo "log.level = ERROR" >> ~/.config/softhsm2/softhsm2.conf
+        echo "slots.removable = false" >> ~/.config/softhsm2/softhsm2.conf
+        export PKCS11_LABEL="ForFabric"
+        export PKCS11_LIB="/usr/lib/softhsm/libsofthsm2.so"
+        export PKCS11_PIN="98765432"
+
     - name: Make all
       run: make
